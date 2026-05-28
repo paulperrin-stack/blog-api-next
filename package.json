@@ -4,13 +4,13 @@
     "start": "node src/server.js"
   },
   "dependencies": {
-    "@prisma/client": "^7.8.0",
+    "@prisma/client": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
     "jsonwebtoken": "^9.0.3",
-    "prisma": "^7.8.0"
+    "prisma": "^6.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
