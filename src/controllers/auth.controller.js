@@ -30,14 +30,14 @@ async function register(req, res, next) {
             });
         }
     
-        const hasded = await bcrypt.hash(password, 12);
+        const hashed = await bcrypt.hash(password, 12);
 
         const user = await prisma.user.create({
             data: {
                 username,
                 email,
                 password: hashed,
-                role: role === "AURHOR" ? "AUTHOR" : "READER",
+                role: role === "AUTHOR" ? "AUTHOR" : "READER",
             },
             select: { id: true, username: true, email: true, role: true, createdAt: true },
         });
