@@ -7,6 +7,7 @@ const {
   createPost,
   updatePost,
   deletePost,
+  togglePublish,
 } = require("../controllers/post.controller");
 
 const router = Router();
@@ -19,9 +20,11 @@ const postValidation = [
 ];
 
 router.get("/", getAllPosts);
+router.get("/mine", authenticate, getMyPosts);
 router.get("/:id", getPost);
 router.post("/", authenticate, postValidation, createPost);
 router.put("/:id", authenticate, postValidation, updatePost);
 router.delete("/:id", authenticate, deletePost);
+router.patch("/:id/publish", authenticate, togglePublish);
 
 module.exports = router;

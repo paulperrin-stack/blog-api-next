@@ -139,4 +139,44 @@ async function deletePost(req, res, next) {
   }
 }
 
-module.exports = { getAllPosts, getPost, createPost, updatePost, deletePost };
+// PATCH /api/posts/:id/publish
+async function togglePublish(req, res, next) {
+  const postId = Number(req.params.id);
+
+  try {
+    const existing = await prisma.post.findUnique({ where: { id: postId } });
+
+    if (!existing) {
+      return res.status(404).json({ error: { message: "Post not found" } });
+    }
+
+    if (existing.authorId !== req.user.id) {
+      return res.status(403).json({ error: { message: "Forbidden" } });
+    }
+
+    const post = await prisma.post.update({
+      where: { id: postId },
+      data: { published: !existing.published },
+    });
+
+    res.json(post);
+  }  catch (err) {
+    next(err);
+  }
+}
+
+// GET /api/posts/mine (requires authentication
+async function getMyPosts(req, res, next) {
+  try {
+    const posts = await prisma.post.findMany({
+      where: { authorId: req.user.id },
+      orderBy: { createdAt: "desc" },
+      include: { author: { select: { id: true, username: true } } },
+    });
+    res.json(posts);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { getAllPosts, getPost, createPost, updatePost, deletePost, togglePublish, getMyPosts };
