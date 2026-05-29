@@ -8,6 +8,7 @@ const {
   updatePost,
   deletePost,
   togglePublish,
+  getMyPosts,
 } = require("../controllers/post.controller");
 
 const router = Router();
